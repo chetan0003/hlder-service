@@ -1,12 +1,10 @@
 package com.elcallao.emit.util;
 
 import com.elcallao.emit.constant.Constants;
-import com.elcallao.emit.model.ErrorResponse;
 import com.elcallao.emit.model.TRBCredential;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+
 
 public class EmitUtil {
 
@@ -33,10 +31,5 @@ public class EmitUtil {
                   .replace(credential.getApi_version(),Constants.ASTERISK_SYMBOLS);
     }
 
-    public static String getFieldFromJson(String json ,String filed){
-        Object obj= JSONValue.parse(json);
-        JSONObject jsonObject = (JSONObject) obj;
-        return  (String) jsonObject.get(filed);
-    }
 
 }

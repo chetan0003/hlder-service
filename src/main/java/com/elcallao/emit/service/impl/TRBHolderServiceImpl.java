@@ -1,12 +1,8 @@
 package com.elcallao.emit.service.impl;
 
-
-import com.callao.emit.FeignService;
-import com.elcallao.emit.advice.GlobalExceptionHandler;
 import com.elcallao.emit.model.*;
 import com.elcallao.emit.endpoint.service.TRBEndpointService;
 import com.elcallao.emit.util.EmitUtil;
-import com.elcallao.emit.util.TRBUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
