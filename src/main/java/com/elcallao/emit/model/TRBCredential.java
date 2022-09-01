@@ -1,4 +1,4 @@
-package com.callao.integration.model;
+package com.elcallao.emit.model;
 
 
 import java.io.Serializable;

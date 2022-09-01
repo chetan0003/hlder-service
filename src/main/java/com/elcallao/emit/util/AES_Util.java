@@ -1,4 +1,4 @@
-package com.callao.integration.util;
+package com.elcallao.emit.util;
 
 import java.security.MessageDigest;
 import java.util.Arrays;

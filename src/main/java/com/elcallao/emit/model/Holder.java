@@ -1,4 +1,4 @@
-package com.callao.integration.model;
+package com.elcallao.emit.model;
 
 import java.io.Serializable;
 
@@ -28,9 +28,10 @@ public class Holder extends TRBCredential implements Serializable {
 	@Size(min = 1 , max = 7)
 	private String title;
 	@NotEmpty
+	@Pattern(regexp = "^[a-zA-Z-,./ ]+$")
 	@Size(min =1,max = 50)
 	private String first_name;
-	@NotEmpty
+	@NotEmpty()
 	@Size(min =1,max = 50)
 	private String last_name;
 	@NotEmpty

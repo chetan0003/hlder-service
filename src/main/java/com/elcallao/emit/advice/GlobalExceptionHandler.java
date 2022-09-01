@@ -1,7 +1,9 @@
-package com.callao.integration.advice;
+package com.elcallao.emit.advice;
 
-import com.callao.integration.constant.Constants;
-import com.callao.integration.util.TRBUtil;
+import com.elcallao.emit.constant.Constants;
+import com.elcallao.emit.model.ErrorResponse;
+import com.elcallao.emit.util.EmitUtil;
+import com.elcallao.emit.util.TRBUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +15,11 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpClientErrorException;
 
-import com.callao.integration.model.Response;
+import com.elcallao.emit.model.Response;
 import org.springframework.web.client.ResourceAccessException;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author chetan d
@@ -35,16 +40,29 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(HttpClientErrorException.class)
 	public ResponseEntity<Response> handleClientErrorException(HttpClientErrorException ex){
-		String responseAsJson = ex.getResponseBodyAsString();
-		String message = responseAsJson != null ? TRBUtil.getFieldFromJson(responseAsJson, Constants.MESSAGE_KEY) : null;
-		if (StringUtils.isEmpty(message))
+		ErrorResponse errorResponse  = ex.getResponseBodyAsString()!= null ? buildErrorResponse(ex.getResponseBodyAsString()) : null;
+		if (errorResponse == null)
 			log.error(Constants.TRB_UNKNOWN_EXCEPTION);
-		return new ResponseEntity<>(new Response(422, message), HttpStatus.UNPROCESSABLE_ENTITY);
+		return new ResponseEntity<>(new Response(422, errorResponse.getMessage()), HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 
 	@ExceptionHandler(ResourceAccessException.class)
 	public ResponseEntity<Response> handleClientErrorException(ResourceAccessException ex){
+		String message = (ex.getMessage() != null && ex.getMessage().contains("Connection timed out")) ? Constants.TRB_SERVICE_TIMEOUT : Constants.TRB_SERVICE_DOWN;
 		log.error(ex.getMessage());
-		return new ResponseEntity<>(new Response(500, "Service down..."), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(new Response(500, message), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@ExceptionHandler(NullPointerException.class)
+	public ResponseEntity<Response> handleNullException(NullPointerException ex){
+		log.error(ex.getMessage());
+		return new ResponseEntity<>(new Response(500, null), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	public static ErrorResponse buildErrorResponse(String errorRes){
+		ErrorResponse errorResponse = new ErrorResponse();
+		Map<String, Object> mapRes = (LinkedHashMap<String, Object>) EmitUtil.convertJsonStringToObject(errorRes);
+		return ErrorResponse.builder().status(mapRes.get("status").toString()).status_code(mapRes.get("status_code").toString())
+				.message(mapRes.get("message").toString()).duplicated(mapRes.get("duplicated").toString()).build();
 	}
 }

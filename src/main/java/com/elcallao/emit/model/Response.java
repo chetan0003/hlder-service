@@ -1,4 +1,4 @@
-package com.callao.integration.model;
+package com.elcallao.emit.model;
 
 import java.util.List;
 import java.util.Map;
@@ -17,6 +17,9 @@ public class Response {
 	private Object data;
 	private String message;
 	private List<Map<String, String>> messages;
+
+	private Integer duplicated;
+
 
 	public Response(Integer statusCode, Object data) {
 		super();

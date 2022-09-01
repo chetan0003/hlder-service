@@ -1,4 +1,4 @@
-package com.callao.integration.constant;
+package com.elcallao.emit.constant;
 
 /**
  * @author chetan d
@@ -9,9 +9,11 @@ public class Constants {
 	public static final String TRB_CREATE_HOLDER_ACTION = "createHolder";
 	public static final String TRB_GET_HOLDER_ACTION = "getHolder";
 	public static final String TRB_GET_HOLDER_AND_ACCOUNTS_ACTION = "getHolderAccounts";
-	public static final String MESSAGE_KEY = "message";
 	public static final String DATA_KEY = "data";
 	public static final String ID_KEY = "id";
+	public static final String ASTERISK_SYMBOLS = "******";
+	public static final String TRB_SERVICE_TIMEOUT = "SERVICE TIMEOUT";
+	public static final String TRB_SERVICE_DOWN = "SERVICE DOWN";
 	public static final String TRB_UNKNOWN_EXCEPTION = "oops.. something went wrong";
 	public static final String TRB_ACCESS_KEY = "ACCESS_KEY";
 	public static final String TRB_ACCESS_API_ID = "ACCESS_API_ID";

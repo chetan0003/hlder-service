@@ -1,11 +1,16 @@
-package com.callao.integration.tribe.endpoint.service;
+package com.elcallao.emit.endpoint.service;
 
-import com.callao.integration.constant.Constants;
-import com.callao.integration.model.GetHolder;
-import com.callao.integration.model.GetHolderAndAccounts;
-import com.callao.integration.model.Holder;
-import com.callao.integration.model.TRBCredential;
-import com.callao.integration.util.AES_Util;
+import com.elcallao.emit.constant.Constants;
+import com.elcallao.emit.model.*;
+import com.elcallao.emit.service.impl.TRBHolderServiceImpl;
+import com.elcallao.emit.util.AES_Util;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+
 /**
  * @author chetan d
  * @since 28 Aug 2022
@@ -13,6 +18,7 @@ import com.callao.integration.util.AES_Util;
  */
 public abstract class TRBEndpointService {
 
+    Logger log = LoggerFactory.getLogger(TRBEndpointService.class);
     /**
      * @desc this method will use to build req for create holder.
      */
@@ -28,7 +34,7 @@ public abstract class TRBEndpointService {
     /**
      * @desc this method will use to build req for Get holder.
      */
-    public static GetHolder buildGetHolderRequest(Long id , String _action) {
+    public static GetHolder buildGetHolderRequest(Long holderId , String _action) {
         TRBCredential _credential = getTRBCredential();
         GetHolder _getHolder = new GetHolder(_credential.getAccess_key(),_credential.getAccess_api_id()
                 ,_credential.getAccess_api_key(),_credential.getApi_version());
@@ -37,13 +43,13 @@ public abstract class TRBEndpointService {
         _getHolder.setAccess_api_id(_credential.getAccess_api_id());
         _getHolder.setApi_version(_credential.getApi_version());
         _getHolder.setAction(_action);
-        _getHolder.setHolder_id(id);
+        _getHolder.setHolder_id(holderId);
         return _getHolder;
     }
     /**
      * @desc this method will use to build req for GetHolderAndAccounts.
      */
-    public static  GetHolderAndAccounts buildGetHolderAndAccountsRequest(String _action) {
+    public static  GetHolderAndAccounts buildGetHolderAndAccountsRequest(Long holderId , String _action) {
         TRBCredential _credential = getTRBCredential();
         GetHolderAndAccounts _getHolderAndAccounts = new GetHolderAndAccounts(_credential.getAccess_key(),_credential.getAccess_api_id()
                 ,_credential.getAccess_api_key(),_credential.getApi_version());
@@ -52,7 +58,20 @@ public abstract class TRBEndpointService {
         _getHolderAndAccounts.setAccess_api_id(_credential.getAccess_api_id());
         _getHolderAndAccounts.setApi_version(_credential.getApi_version());
         _getHolderAndAccounts.setAction(_action);
+        _getHolderAndAccounts.setHolder_id(holderId);
         return _getHolderAndAccounts;
+    }
+    /**
+     * @desc this method will use to build response of GetHolderAndAccounts for callao.
+     */
+    public static List<ResHolderAndAccount> buildCloHolderAndAccountsRes(List<LinkedHashMap<String, Object>> data ,List<ResHolderAndAccount> holderAndAccountsList){
+        data.stream().forEach(i-> {
+            ResHolderAndAccount resHolderAndAccounts  = new ResHolderAndAccount();
+            resHolderAndAccounts.setAccount_id(StringUtils.isNotEmpty(i.get("id").toString())?i.get("id").toString():null);
+            resHolderAndAccounts.setHolder_id(i.get("holder_id").toString());
+            holderAndAccountsList.add(resHolderAndAccounts);
+        });
+        return holderAndAccountsList;
     }
     /**
      * @desc  this method returns the Tribe Credential.

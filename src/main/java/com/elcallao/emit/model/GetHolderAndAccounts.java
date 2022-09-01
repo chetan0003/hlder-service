@@ -1,12 +1,14 @@
-package com.callao.integration.model;
+package com.elcallao.emit.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Getter@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(builderMethodName = "holderAccountsBuilder")
 public class GetHolderAndAccounts extends TRBCredential implements Serializable {
 
     private String action;

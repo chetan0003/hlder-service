@@ -1,4 +1,4 @@
-package com.callao.integration.model;
+package com.elcallao.emit.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +7,7 @@ import lombok.Setter;
 import java.io.Serializable;
 
 @Getter@Setter
+@NoArgsConstructor
 public class GetHolder extends TRBCredential implements Serializable {
     private static final long serialVersionUID = 1L;
 
