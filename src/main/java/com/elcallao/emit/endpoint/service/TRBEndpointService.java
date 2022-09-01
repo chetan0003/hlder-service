@@ -4,6 +4,7 @@ import com.elcallao.emit.constant.Constants;
 import com.elcallao.emit.model.*;
 import com.elcallao.emit.service.impl.TRBHolderServiceImpl;
 import com.elcallao.emit.util.AES_Util;
+import com.elcallao.emit.util.EmitUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,6 +74,13 @@ public abstract class TRBEndpointService {
         });
         return holderAndAccountsList;
     }
+    public static Object maskCredential(Object obj){
+        TRBCredential credential = getTRBCredential();
+        return EmitUtil.convertObjectToJsonString(obj).replace(credential.getAccess_key(),Constants.ASTERISK_SYMBOLS)
+                .replace(credential.getAccess_api_id(), Constants.ASTERISK_SYMBOLS).replace(credential.getAccess_api_key(),Constants.ASTERISK_SYMBOLS)
+                .replace(credential.getApi_version(),Constants.ASTERISK_SYMBOLS);
+    }
+
     /**
      * @desc  this method returns the Tribe Credential.
      */

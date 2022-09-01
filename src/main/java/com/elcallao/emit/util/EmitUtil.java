@@ -24,12 +24,5 @@ public class EmitUtil {
             throw new RuntimeException(e);
         }
     }
-
-      public static Object maskCredential(TRBCredential credential , Object obj){
-          return convertObjectToJsonString(obj).replace(credential.getAccess_key(),Constants.ASTERISK_SYMBOLS)
-                  .replace(credential.getAccess_api_id(), Constants.ASTERISK_SYMBOLS).replace(credential.getAccess_api_key(),Constants.ASTERISK_SYMBOLS)
-                  .replace(credential.getApi_version(),Constants.ASTERISK_SYMBOLS);
-    }
-
-
+    
 }

@@ -31,7 +31,7 @@ public class TRBHolderServiceImpl extends TRBEndpointService implements ITRBHold
 	@Override
 	public Response postHolder(Holder _holder) {
 		_holder = buildCreateHolderRequest(_holder, Constants.TRB_CREATE_HOLDER_ACTION);
-		log.info("Post Holder Request {} : " + EmitUtil.maskCredential(getTRBCredential(),_holder));
+		log.info("Post Holder Request {} : " + maskCredential(_holder));
 		ResponseEntity<Object> _response = this.restTemplate.postForEntity(System.getenv(Constants.TRB_API_URL),_holder,Object.class);
 		log.info("Post Holder Response {} : " + EmitUtil.convertObjectToJsonString(_response.getBody()));
 		Map<String, Object> _responseMap  = (Map<String, Object>) _response.getBody();
@@ -41,7 +41,7 @@ public class TRBHolderServiceImpl extends TRBEndpointService implements ITRBHold
 	@Override
 	public Response getHolder(Long holderId) {
 		GetHolder _getHolder = buildGetHolderRequest(holderId ,Constants.TRB_GET_HOLDER_ACTION);
-		log.info("Get Holder Request {} : " + EmitUtil.maskCredential(getTRBCredential(),_getHolder));
+		log.info("Get Holder Request {} : " + maskCredential(_getHolder));
 		ResponseEntity<Object> _response = this.restTemplate.postForEntity(System.getenv(Constants.TRB_API_URL), _getHolder , Object.class);
 		log.info("Get Holder Response {} : " + EmitUtil.convertObjectToJsonString(_response.getBody()));
 		Map<String, Object> _responseMap  = (Map<String, Object>) _response.getBody();
@@ -51,7 +51,7 @@ public class TRBHolderServiceImpl extends TRBEndpointService implements ITRBHold
 	@Override
 	public Response getHolderAndAccounts(Long holderId) {
 		GetHolderAndAccounts _getHolderAndAccounts = buildGetHolderAndAccountsRequest(holderId , Constants.TRB_GET_HOLDER_AND_ACCOUNTS_ACTION);
-		log.info("Get HolderAccount Request {} : " + EmitUtil.maskCredential(getTRBCredential(),_getHolderAndAccounts));
+		log.info("Get HolderAccount Request {} : " + maskCredential(_getHolderAndAccounts));
 		ResponseEntity<Object> _response = this.restTemplate.postForEntity(System.getenv(Constants.TRB_API_URL), _getHolderAndAccounts , Object.class);
 		log.info("Get HolderAccount Response {} : " + EmitUtil.convertObjectToJsonString(_response.getBody()));
 		List<LinkedHashMap<String, Object>> _data =
